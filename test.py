@@ -52,7 +52,7 @@ def parse_node(parent_id, parent_code=""):
             code = child['code']
             key = str(child['key'])
             name = child['name']
-            title = child.get('title', f"{code}: {name}")
+            title = child.get('title', f"{code}")
             full_code = f"{parent_code}.{code}" if parent_code else code
             
             okpd2_data[full_code] = {

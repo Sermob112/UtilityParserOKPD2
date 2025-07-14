@@ -70,7 +70,7 @@ def worker():
                 code = child['code']
                 key = str(child['key'])
                 name = child['name']
-                title = child.get('title', f"{code}: {name}")
+                title = child.get('title', f"{code}")
                 full_code = f"{parent_code}.{code}" if parent_code else code
                 
                 with data_lock:
