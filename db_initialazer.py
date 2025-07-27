@@ -11,7 +11,7 @@ def insert_data_to_db(conn, data):
     cursor = conn.cursor()
     try:
 
-        insert_query = "INSERT INTO Okpd2 (id, title, code, name) VALUES (%s, %s, %s, %s)"
+        insert_query = "INSERT INTO Okpd2_2 (id, title, code, name) VALUES (%s, %s, %s, %s)"
         cursor.executemany(insert_query, data)
         conn.commit()
         print("Данные успешно добавлены в базу.")
@@ -50,7 +50,7 @@ try:
     
     print("Подключение к базе данных успешно!")
     
-    json_filename = "okpd2_full.json"
+    json_filename = "okpd2_full_25_07.json"
     
     parse_json_and_insert(json_filename, conn)
 

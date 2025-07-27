@@ -7,5 +7,5 @@ for filename in glob.glob("okpd2_part_*.json"):
         data = json.load(f)
         all_data.update(data)
 
-with open("okpd2_full.json", "w", encoding="utf-8") as f:
+with open("okpd2_full_25_07.json", "w", encoding="utf-8") as f:
     json.dump(all_data, f, ensure_ascii=False, indent=2)
