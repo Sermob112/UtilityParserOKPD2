@@ -1,7 +1,9 @@
 import os
 import re
+import shutil
+import itertools
 # Путь к основной директории
-base_path = r"F:\44 - Закупки 12.07.25"
+base_path = r"C:\Users\Sergey\MAGA\Kimch\НМЦК_сборка\44-фз"
 mass  = ["0352100012725000033", "0352100012725000035", "0301300247625000589", "0357300040425000001", "0869200000225006221", "0318300165725000399", "0301100000425000048", 
          "0174500001125003857", "0358200011325000018", "0369100038425000060", "0190200000325008370", "0834500000125000010", "0324100004425000103", "0372200141825000044", 
          "0320100018725000190", "0369300199325000012", "0362300376325000008", "0318200067725000001", "0387200011125000021", "0145200000425001096", "0111200000125000014", 
@@ -288,3 +290,47 @@ if no_pattern_folders:
 
 else:
     print("\nВо всех папках найдены файлы с указанными паттернами.")
+
+def sanitize_filename(name: str) -> str:
+    bad = '<>:"/\\|?*'
+    table = str.maketrans({ch: '_' for ch in bad})
+    return name.translate(table)
+
+def copy_and_rename_files(found_files, dest_dir, move=False):
+    """
+    found_files: список кортежей (purchase_number, full_path)
+    dest_dir: папка назначения
+    move: False — копировать (по умолчанию), True — перемещать
+    """
+    os.makedirs(dest_dir, exist_ok=True)
+    copied = 0
+    for purchase_num, src_path in found_files:
+        if not os.path.isfile(src_path):
+            continue
+        base_original = os.path.basename(src_path)
+        new_name = f"Закупка № {purchase_num} {base_original}"
+        new_name = sanitize_filename(new_name)
+
+        # если файл уже есть — добавляем (1), (2), …
+        name, ext = os.path.splitext(new_name)
+        candidate = new_name
+        for k in itertools.count(1):
+            dest_path = os.path.join(dest_dir, candidate)
+            if not os.path.exists(dest_path):
+                break
+            candidate = f"{name} ({k}){ext}"
+
+        # копировать/переместить с сохранением метаданных
+        if move:
+            shutil.move(src_path, dest_path)
+        else:
+            shutil.copy2(src_path, dest_path)
+        copied += 1
+    return copied
+
+
+DEST_DIR = r"C:\Users\Sergey\MAGA\Kimch\НМЦК_сборка"  # поменяй при необходимости
+MOVE_FILES = False  # True — чтобы перемещать вместо копирования
+
+# copied_count = copy_and_rename_files(found_files, DEST_DIR, move=MOVE_FILES)
+# print(f"\nСобрано файлов: {copied_count}. Папка: {DEST_DIR}")
