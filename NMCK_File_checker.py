@@ -3,7 +3,7 @@ import re
 import shutil
 import itertools
 # Путь к основной директории
-base_path = r"C:\Users\Sergey\MAGA\Kimch\НМЦК_сборка\44-фз"
+base_path = r"C:\Users\Sergey\MAGA\Kimch\467 закупок"
 mass  = ["0352100012725000033", "0352100012725000035", "0301300247625000589", "0357300040425000001", "0869200000225006221", "0318300165725000399", "0301100000425000048", 
          "0174500001125003857", "0358200011325000018", "0369100038425000060", "0190200000325008370", "0834500000125000010", "0324100004425000103", "0372200141825000044", 
          "0320100018725000190", "0369300199325000012", "0362300376325000008", "0318200067725000001", "0387200011125000021", "0145200000425001096", "0111200000125000014", 
@@ -329,8 +329,8 @@ def copy_and_rename_files(found_files, dest_dir, move=False):
     return copied
 
 
-DEST_DIR = r"C:\Users\Sergey\MAGA\Kimch\НМЦК_сборка"  # поменяй при необходимости
+DEST_DIR = r"C:\Users\Sergey\MAGA\Kimch\НМЦК_сборка_для_подсчета"  # поменяй при необходимости
 MOVE_FILES = False  # True — чтобы перемещать вместо копирования
 
-# copied_count = copy_and_rename_files(found_files, DEST_DIR, move=MOVE_FILES)
-# print(f"\nСобрано файлов: {copied_count}. Папка: {DEST_DIR}")
+copied_count = copy_and_rename_files(found_files, DEST_DIR, move=MOVE_FILES)
+print(f"\nСобрано файлов: {copied_count}. Папка: {DEST_DIR}")
